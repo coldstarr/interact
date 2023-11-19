@@ -14,5 +14,5 @@ RUN pip install -r requirements.txt
 COPY . /app/
 
 # Set the Gunicorn command to run on port 8000
-ENTRYPOINT ["gunicorn", "--bind", "0.0.0.0:8000", "interact.wsgi:application"]
+ENTRYPOINT ["daphne", "--bind", "0.0.0.0:8000", "interact.asgi:application"]
 
