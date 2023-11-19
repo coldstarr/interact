@@ -13,4 +13,5 @@ RUN pip install -r requirements.txt
 
 COPY . /app/
 
-ENTRYPOINT [ "gunicorn", "interact.wsgi"]
+# Set the Gunicorn command to run on port 8000
+CMD ["gunicorn", "interact.wsgi", "--bind", "0.0.0.0:8000"]
