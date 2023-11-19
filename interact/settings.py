@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+import dj_database_url
 from dotenv import load_dotenv
 
 # Load the environment variables from the .env file
@@ -97,14 +98,7 @@ CHANNEL_LAYERS = {
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': os.getenv('PASSWORD'),
-        'HOST': os.getenv('HOST'),
-        'PORT': 5432
-    }
+    'default': dj_database_url.parse("postgres://interact_db_user:Vpx0V6LdBWnzdpd1rejOXkLo1PZJshIS@dpg-clb1p1ent67s73f7vp30-a.singapore-postgres.render.com/interact_db")
 }
 
 # Password validation
