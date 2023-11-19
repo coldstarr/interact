@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interact</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .chat-container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-messages {
+            padding: 15px;
+            overflow-y: scroll;
+            max-height: 300px;
+        }
+
+        .message {
+            margin-bottom: 15px;
+        }
+
+        .message strong {
+            color: #333;
+        }
+
+        .message span {
+            color: #888;
+            font-size: 12px;
+        }
+
+        .chat-input {
+            padding: 15px;
+            border-top: 1px solid #eee;
+            background-color: #f9f9f9;
+            display: flex;
+            align-items: center;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .logout-button {
+            background-color: #e53935;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <div>Room: <span id="room-name"></span></div>
+            <button class="logout-button" onclick="leaveRoom()">Leave</button>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            <!-- Chat messages will appear here -->
+        </div>
+        <div class="chat-input">
+            <input type="text" id="messageInput" placeholder="Type your message">
+            <input type="submit" value="Send" onclick="sendMessage()">
+        </div>
+    </div>
+
+    <script>
+        const CHANNEL = sessionStorage.getItem('room')
+        document.getElementById('room-name').innerText = CHANNEL
+        let NAME = sessionStorage.getItem('name')
+        const token = sessionStorage.getItem('token')
+        const socket = new WebSocket(`ws://${window.location.host}/ws/${CHANNEL}/${NAME}/${token}/`);
+
+        socket.onopen = function (event) {
+            console.log("WebSocket connection opened:", event);
+        };
+
+        socket.onclose = function (event) {
+            console.log("WebSocket connection closed:", event);
+        };
+
+        function sendMessage() {
+            const messageInput = document.getElementById('messageInput');
+            const message = messageInput.value;
+            socket.send(JSON.stringify({ 'message':message, 'username':  NAME})); // Replace "User123" with the actual username
+            messageInput.value = '';
+        }
+
+        function leaveRoom() {
+            // Add any necessary logic before leaving the room
+            socket.close();
+            sessionStorage.setItem('token', null)
+            sessionStorage.setItem('room', null)
+            sessionStorage.setItem('name', null)
+
+            sessionStorage.setItem('from_homepage', null);
+            // Navigate to the home page
+            window.location.href = '/';
+        }
+
+        socket.onmessage = function (event) {
+            const data = JSON.parse(event.data);
+            const chatMessages = document.getElementById('chat-messages');
+
+            // Create a new message element
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message';
+            messageDiv.innerHTML = `<strong>${data.username}:</strong> ${data.message}`;
+
+            // Append the new message to the chat container
+            chatMessages.appendChild(messageDiv);
+
+            // Scroll to the bottom of the chat container
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        };
+    </script>
+</body>
+</html>

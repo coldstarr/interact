@@ -1,0 +1,55 @@
+{% extends 'chat/main.html' %}
+{% load static %}
+
+{% block content %}
+<main>
+    <section id="form-container">
+        <img id="logo" src="{% static 'images/chat-icon.png' %}">
+        
+        <div id="welcome-message">
+            <h1>Welcome to Interact</h1>
+            <p>A group chat application just for you!</p>
+        </div>
+
+        <form id="form">
+            <div class="form-field">
+                <input type="text" name="room" placeholder="Enter a room name..." style="text-transform: uppercase;"/>
+            </div>
+
+            <div class="form-field">
+                <input type="text" name="username" placeholder="Enter a your name..." style="text-transform: uppercase;"/>
+            </div>
+
+            <div class="form-field">
+                <input type="submit" value="Lets interact"/>
+            </div>
+        </form>
+    </section>
+</main>
+
+<script type="text/javascript">
+    sessionStorage.setItem('from_homepage', false);
+    let form = document.getElementById('form')
+    let handleSubmit = async (e) => {
+      e.preventDefault()
+      let room = e.target.room.value.toUpperCase()
+      let name = e.target.username.value
+      let response = await fetch(`/get_token/`, {
+        headers: {
+            'Content-Type': 'application/json',
+        }
+      });
+
+      let data = await response.json()
+      let token = data.token
+      sessionStorage.setItem('token', token)
+      sessionStorage.setItem('room', room)
+      sessionStorage.setItem('name', name)
+
+      sessionStorage.setItem('from_homepage', true)
+      
+      window.open('/chat/', '_self')
+    }
+    form.addEventListener('submit', handleSubmit)
+</script>
+{% endblock content %}
