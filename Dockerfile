@@ -13,4 +13,4 @@ RUN pip install -r requirements.txt
 
 COPY . /app/
 
-ENTRYPOINT [ "gunicorn", "interact.asgi"]
+ENTRYPOINT [ "gunicorn", "interact.wsgi"]
