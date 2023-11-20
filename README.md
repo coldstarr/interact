@@ -3,7 +3,7 @@
 Live Demo can be viewed at https://interact-drgy.onrender.com
 
 
-![DEMO](https://github.com/coldstarr/onestore/blob/main/static/images/onestore.gif)
+![DEMO](https://drive.google.com/file/d/1mO_ylbF2yj5DdxrIrpaW_7cPntxjE0Xy/view?usp=sharing)
 
 
 # Features
