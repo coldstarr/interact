@@ -1,6 +1,6 @@
-# Onestore Ecommerce Website With Django + React
+# Interact Group Chat Django based Web Application
 
-Live Demo can be viewed at https://onestore-s62f.onrender.com
+Live Demo can be viewed at https://interact-drgy.onrender.com
 
 
 ![DEMO](https://github.com/coldstarr/onestore/blob/main/static/images/onestore.gif)
@@ -23,13 +23,9 @@ Live Demo can be viewed at https://onestore-s62f.onrender.com
 
 # Download & Setup Instructions
 
-* 1 - Clone project: git clone https://github.com/coldstarr/onestore.git
-* 2 - cd onestore
+* 1 - Clone project: git clone https://github.com/coldstarr/interact.git
+* 2 - cd interact
 * 3 - Create virtual environment: python -m venv venv
 * 4 - venv\Scripts\activate
 * 5 - pip install -r requirements.txt
 * 6 - python manage.py runserver
-
-# Install react modules
-* 1 - cd frontend
-* 2 - npm install
